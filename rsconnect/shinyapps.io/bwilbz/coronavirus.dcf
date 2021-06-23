@@ -5,8 +5,8 @@ account: bwilbz
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1949313
-bundleId: 4747365
+bundleId: 4747513
 url: https://wilberforce.shinyapps.io/Coronavirus/
-when: 1624451405.1896
+when: 1624453376.54402
 asMultiple: FALSE
 asStatic: FALSE
