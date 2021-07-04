@@ -67,7 +67,7 @@ create_graph<-function(dataset, start_date, end_date){
     filtered_data%>%ggplot2::ggplot(ggplot2::aes(x = Date, y = moving_avg)) + 
         ggplot2::geom_point() +
         ggplot2::geom_line() +
-        ggplot2::facet_grid(rows=filtered_data$Area, ) +
+        ggplot2::facet_grid(rows=filtered_data$Area) +
         ggplot2::ylab("Rolling 7 Day Average of New Cases") +
         ggplot2::xlab("Specimen Date")
         }
@@ -79,15 +79,15 @@ create_graph<-function(dataset, start_date, end_date){
 
 ui <- shiny::fluidPage(
     shiny::titlePanel("New Coronavirus Cases in the UK"),
-    shiny::fluidPage(
+    shiny::sidebarPanel(
         shiny::dateRangeInput("date_range", "Please select a date range:",
                               "2020-03-01", Sys.Date(),
                               max=Sys.Date(),min="2020-02-01"),
         shiny::selectInput("area", "Plot data by:",
-                           choices = c("nation","region","ltla"))
+                           choices = c("nation","region")), width=3
     ),
-    shiny::fluidPage(
-        shiny::plotOutput("Plot1")
+    shiny::mainPanel(
+        shiny::plotOutput("Plot1", height=800)
         
     )
 )
