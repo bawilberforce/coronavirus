@@ -19,22 +19,24 @@ ui<-fluidPage(mainPanel(
     width=4),
     mainPanel(tabsetPanel(
         tabPanel("New Cases", plotOutput("Plot1")),
-                 tabPanel("Long Covid Cases",),
-                 tabPanel("Deaths",)))))
+                 tabPanel("Long Covid Cases",""),
+                 tabPanel("Deaths","")))))
 
 server <- function(input, output){
     output$focus_area <- renderUI({selectInput("focus_area", 
                                                     "Show data for:", 
-                                                   get_cases_data(area=input$area)
-                                                   %>% convert_to_json()
-                                                   %>% select(Area)
-                                                   %>% unique())})
-    output$Plot1<- renderPlot(get_cases_data(area=input$area)
-                                    %>% convert_to_json()
-                                    %>% calculate_rolling_avg()
-                                    %>% create_graph(.,focus_area=paste0(input$focus_area), start_date=min(input$date_range),
-                                                     end_date=max(input$date_range)))
-}
+                                                   get_cases_data(area=input$area) %>% 
+                                                   convert_to_json() %>%
+                                                   select(Area) %>%
+                                                   unique())})
+    output$Plot1<- renderPlot({validate(need(input$focus_area!="", 
+                                             "Please select an area."))
+        get_cases_data(area=input$area)%>%
+        convert_to_json()%>%
+        calculate_rolling_avg()%>%
+        create_graph(.,focus_area=paste0(input$focus_area), 
+                     start_date=min(input$date_range),
+                    end_date=max(input$date_range))})}
 
 
 # Run App -----------------------------------------------------------------
