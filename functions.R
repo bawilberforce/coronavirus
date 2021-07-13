@@ -79,8 +79,10 @@ create_graph<-function(dataset, focus_area, start_date, end_date){
     geom_col(data=filtered_data_1, mapping=aes(x=Date,
                                                y=Cases))+
     geom_line(data=filtered_data_2, mapping=aes(x=Date,
-                                                y=Cases),
-              colour="red", size=2)+
-    ylab("New Cases") +
-    xlab("Specimen Date")
+                                                y=Cases, colour="7 Day Rolling Average"),
+              size=2) +
+    labs(x="Specimen Date", y="New Cases", colour = "Key")
+    #theme(legend.title = element_blank())
+    #ylab("New Cases") +
+    #xlab("Specimen Date")
 }

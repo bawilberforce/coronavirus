@@ -19,7 +19,7 @@ ui<-fluidPage(mainPanel(
     width=4),
     mainPanel(tabsetPanel(
         tabPanel("New Cases", plotOutput("Plot1")),
-                 tabPanel("Hospitalisations",),
+                 tabPanel("Long Covid Cases",),
                  tabPanel("Deaths",)))))
 
 server <- function(input, output){
