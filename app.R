@@ -19,23 +19,24 @@ ui<-fluidPage(mainPanel(
     width=3),
     mainPanel(tabsetPanel(
         tabPanel("New Cases", plotOutput("Plot1")),
-                 tabPanel("Long Covid Cases",""),
-                 tabPanel("Deaths",""))),width = 1000, height=500))
+                 tabPanel("Deaths", plotOutput("Plot2"))),width = 1000, height=500)))
 
 server <- function(input, output){
     output$focus_area <- renderUI({selectInput("focus_area", 
                                                     "Show data for:", 
                                                    list_poss_focus_areas(input$area))})
-    output$Plot1<- renderPlot({validate(need(input$focus_area!="" &
-                                        input$focus_area %in% sapply(list_poss_focus_areas(input$area), 
-                                                                     function(level){as.character(level)}) == TRUE, 
-                                             ""))
-        get_cases_data(area=input$area)%>%
-        convert_to_json()%>%
-        calculate_rolling_avg()%>%
-        create_graph(.,focus_area=paste0(input$focus_area), 
-                     start_date=min(input$date_range),
-                    end_date=max(input$date_range))})}
+    output$Plot1<- renderPlot(output_time_series(var="New_Cases", 
+                                                 var_label = "New Cases",
+                                                 xlabel="Specimen Date",
+                                                 focus_area=input$focus_area,
+                                                 area=input$area,
+                                                 date_range=input$date_range))
+    output$Plot2<- renderPlot(output_time_series(var="New_Deaths", 
+                                             var_label = "New Deaths",
+                                             xlabel="Death Date",
+                                             focus_area=input$focus_area,
+                                             area=input$area,
+                                             date_range=input$date_range))}
 
 
 # Run App -----------------------------------------------------------------
