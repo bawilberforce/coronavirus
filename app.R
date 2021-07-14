@@ -16,21 +16,20 @@ ui<-fluidPage(mainPanel(
     selectInput("area", "Plot data by:",
                            choices = c("nation","region")), 
     uiOutput("focus_area"),
-    width=4),
+    width=3),
     mainPanel(tabsetPanel(
         tabPanel("New Cases", plotOutput("Plot1")),
                  tabPanel("Long Covid Cases",""),
-                 tabPanel("Deaths","")))))
+                 tabPanel("Deaths",""))),width = 1000, height=500))
 
 server <- function(input, output){
     output$focus_area <- renderUI({selectInput("focus_area", 
                                                     "Show data for:", 
-                                                   get_cases_data(area=input$area) %>% 
-                                                   convert_to_json() %>%
-                                                   select(Area) %>%
-                                                   unique())})
-    output$Plot1<- renderPlot({validate(need(input$focus_area!="", 
-                                             "Please select an area."))
+                                                   list_poss_focus_areas(input$area))})
+    output$Plot1<- renderPlot({validate(need(input$focus_area!="" &
+                                        input$focus_area %in% sapply(list_poss_focus_areas(input$area), 
+                                                                     function(level){as.character(level)}) == TRUE, 
+                                             ""))
         get_cases_data(area=input$area)%>%
         convert_to_json()%>%
         calculate_rolling_avg()%>%

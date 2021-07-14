@@ -86,3 +86,12 @@ create_graph<-function(dataset, focus_area, start_date, end_date){
     #ylab("New Cases") +
     #xlab("Specimen Date")
 }
+
+
+# FUNCTION: list_poss_focus_areas ----------------------------------------------------
+
+list_poss_focus_areas<-function(area){
+  get_cases_data(area) %>% 
+  convert_to_json() %>%
+  select(Area) %>%
+  unique() }
