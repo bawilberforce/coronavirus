@@ -16,10 +16,11 @@ ui<-fluidPage(mainPanel(
     selectInput("area", "Plot data by:",
                            choices = c("nation","region")), 
     uiOutput("focus_area"),
-    width=3),
+    width=4),
     mainPanel(tabsetPanel(
         tabPanel("New Cases", plotOutput("Plot1")),
-                 tabPanel("Deaths", plotOutput("Plot2"))),width = 1000, height=500)))
+        tabPanel("Deaths", plotOutput("Plot2")),
+        tabPanel("Hospital Admissions", plotOutput("Plot3"))))))
 
 server <- function(input, output){
     output$focus_area <- renderUI({selectInput("focus_area", 
@@ -36,7 +37,14 @@ server <- function(input, output){
                                              xlabel="Death Date",
                                              focus_area=input$focus_area,
                                              area=input$area,
-                                             date_range=input$date_range))}
+                                             date_range=input$date_range))
+    output$Plot3<- renderPlot(output_time_series(var="New_Admissions", 
+                                                 var_label = "New Hospital Admissions",
+                                                 xlabel="Date",
+                                                 focus_area=input$focus_area,
+                                                 area=input$area,
+                                                 date_range=input$date_range))}
+
 
 
 # Run App -----------------------------------------------------------------

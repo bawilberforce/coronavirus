@@ -72,24 +72,25 @@ calculate_rolling_avg<-function(dataset){
 # FUNCTION: create_graph --------------------------------------------------
 
 create_graph<-function(dataset, var, var_label, focus_area, xlabel, start_date, end_date){
-  
+
   filtered_data_1<-dataset%>%
     filter(Date>=as.Date(start_date) & Date<=as.Date(end_date))%>%
     filter(Area==focus_area)%>%
+    na.exclude()%>%
     select(Date, var_label=var)
+  validate(need(nrow(filtered_data_1)!=0,"Data is not available for this area type."))
   filtered_data_2<-dataset%>%
     filter(Date>=as.Date(start_date) & Date<=as.Date(end_date))%>%
     filter(Area==focus_area)%>%
     select(Date, var_label=eval(paste0(var,"_Moving_Avg")))
-  
   ggplot() + 
     geom_col(data=filtered_data_1, mapping=aes(x=Date,
                                                y=var_label))+
     geom_line(data=filtered_data_2, mapping=aes(x=Date,
                                                 y=var_label, colour="7 Day Rolling Average"),
               size=2) +
-    labs(x=xlabel, y=var_label, colour = "Key")
-}
+    labs(x=xlabel, y=var_label, colour = "Key")}
+
 
 
 # FUNCTION: list_poss_focus_areas ----------------------------------------------------
