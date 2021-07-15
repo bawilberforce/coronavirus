@@ -76,6 +76,7 @@ create_graph<-function(dataset, var, var_label, focus_area, xlabel, start_date, 
   filtered_data_1<-dataset%>%
     filter(Date>=as.Date(start_date) & Date<=as.Date(end_date))%>%
     filter(Area==focus_area)%>%
+    select(Date, Area, var)%>%
     na.exclude()%>%
     select(Date, var_label=var)
   validate(need(nrow(filtered_data_1)!=0,"Data is not available for this area type."))
