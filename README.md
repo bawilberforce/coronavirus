@@ -1,6 +1,8 @@
 # Coronavirus
 A project using RShiny to visualise data relating to Covid-19 provided by the UK government.
 
+Please note this is a work in progress - I will be adding to the dashboard and improving it over time.
+
 RShiny url: https://wilberforce.shinyapps.io/Coronavirus/
 
 ## Files
