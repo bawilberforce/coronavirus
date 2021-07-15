@@ -7,7 +7,21 @@ source("functions.R")
 
 # Create Shiny App --------------------------------------------------------
 
-ui<-fluidPage(mainPanel(
+ui<-fluidPage(
+    tags$head(
+        tags$style(HTML("
+                        body {
+                        background-color: #474747;
+                        color: white;
+                        }
+                        h2{
+                        font-family: Calibri;
+                        }
+                        .shiny-input-container {
+                        color: salmon;}
+                        }
+                        "))
+    ),
     titlePanel("UK Coronavirus Data"),
     sidebarPanel(
     dateRangeInput("date_range", "Please select a date range:",
@@ -16,11 +30,13 @@ ui<-fluidPage(mainPanel(
     selectInput("area", "Plot data by:",
                            choices = c("nation","region")), 
     uiOutput("focus_area"),
-    width=4),
+    width=4,
+    ),
     mainPanel(tabsetPanel(
         tabPanel("New Cases", plotOutput("Plot1")),
         tabPanel("Deaths", plotOutput("Plot2")),
-        tabPanel("Hospital Admissions", plotOutput("Plot3"))))))
+        tabPanel("Hospital Admissions", plotOutput("Plot3"))), 
+        ))
 
 server <- function(input, output){
     output$focus_area <- renderUI({selectInput("focus_area", 
@@ -40,7 +56,7 @@ server <- function(input, output){
                                              date_range=input$date_range))
     output$Plot3<- renderPlot(output_time_series(var="New_Admissions", 
                                                  var_label = "New Hospital Admissions",
-                                                 xlabel="Date",
+                                                 xlabel="Date Reported",
                                                  focus_area=input$focus_area,
                                                  area=input$area,
                                                  date_range=input$date_range))}

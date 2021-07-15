@@ -115,3 +115,8 @@ output_time_series<-function(var,var_label,xlabel,focus_area, area,date_range){v
     create_graph(., var=var, var_label=var_label, xlabel=xlabel, focus_area=focus_area, 
                  start_date=min(date_range),
                  end_date=max(date_range))}
+
+
+set_font_calibri<-function(){
+  tags$style("label{font-family: Calibri;}")}
+ 
