@@ -12,16 +12,14 @@ ui<-fluidPage(
         tags$style(HTML("
                         body {
                         background-color: #474747;
-                        color: white;
+                        color: black;
                         }
-                        h2{
+                        h2 {
                         font-family: Calibri;
-                        }
+                        color: white;}                        }
                         .shiny-input-container {
                         color: salmon;}
-                        }
-                        "))
-    ),
+                        a{color: salmon;}"))),
     titlePanel("UK Coronavirus Data"),
     sidebarPanel(
     dateRangeInput("date_range", "Please select a date range:",
